@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="LXBTDDTry" default="run-all-tests" basedir=".">
+	<property name="src.dir" value="src" />
+	<property name="test.dir" value="test" />
+	<property name="build-classes.dir" value="bin" />
+
+	<target name="run-all-tests" depends="jar, compile">
+
+		<junit printsummary="yes">
+			<classpath>
+				<fileset dir="${dependencies.dir}">
+					<include name="**/*.jar" />
+				</fileset>
+				<fileset dir="${dist.dir}/lib">
+					<include name="**/*.jar" />
+				</fileset>
+			</classpath>
+			<formatter type="xml" />
+			<test name="lxbtdd.com.TestRunner" todir="${testdata.dir}" />
+
+		</junit>
+	</target>
+
+	<target name="
+			unit-test-report " depends="run-all-tests">
+		<junitreport todir="${testdata.dir}">
+			<fileset dir="${testdata.dir}">
+				<include name="TEST-*.xml" />
+			</fileset>
+			<report todir="${testdata.dir}" />
+		</junitreport>
+	</target>
+
+	<target name="run-footballpool-tests" depends="jar">
+		<junit printsummary="yes">
+			<classpath>
+				<fileset dir="${dependencies.dir}">
+					<include name="**/*.jar" />
+				</fileset>
+				<fileset dir="${dist.dir}/lib">
+					<include name="**/*.jar" />
+				</fileset>
+			</classpath>
+			<formatter type="xml" />
+			<test name="lxbtdd.com.TestRunner" todir="${testdata.dir}" />
+		</junit>
+	</target>
+
+	<!-- =================================================================== -->
+	<!-- Builds the jar file -->
+	<!-- =================================================================== -->
+	<target name="jar" depends="compile">
+		<jar jarfile="${dist.dir}/lib/${jarName}.jar" basedir="${build-classes.dir}" />
+	</target>
+
+	<!-- =================================================================== -->
+	<!-- Compiles the source code -->
+	<!-- =================================================================== -->
+	<target name="compile">
+		<javac srcdir="${tdd.src.dir}" destdir="${build-classes.dir}"
+			debug="on" deprecation="off" optimize="off" includes="**">
+			<classpath refid="src.compile.path" />
+		</javac>
+	</target>
+
+
+</project>
